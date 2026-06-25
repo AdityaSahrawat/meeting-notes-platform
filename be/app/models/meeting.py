@@ -16,6 +16,7 @@ class Meeting(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), nullable=False)
     summary = Column(Text, nullable=True)
+    llm_summary = Column(Text, nullable=True)
     duration_seconds = Column(Integer, nullable=False)
     meeting_date = Column(DateTime, nullable=False)
 

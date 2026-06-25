@@ -13,17 +13,19 @@ def get_meetings(
     search: Optional[str] = None,
     sort: Optional[str] = None,
     date_filter: Optional[str] = None,
-    participant_filter: Optional[str] = None
+    participant_filter: Optional[str] = None,
+    time_range: Optional[str] = None
 ) -> List[Meeting]:
     query = db.query(Meeting)
 
-    # Search filter (searches title or participant name)
+    # Search filter (searches title, participant name, or date)
     if search:
         # Join participants for search
         query = query.join(Meeting.participants, isouter=True).filter(
             or_(
                 Meeting.title.ilike(f"%{search}%"),
-                Participant.name.ilike(f"%{search}%")
+                Participant.name.ilike(f"%{search}%"),
+                Meeting.meeting_date.like(f"%{search}%")
             )
         ).distinct()
 
@@ -46,6 +48,21 @@ def get_meetings(
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Date filter must be in YYYY-MM-DD format"
+            )
+
+    # Time range filter (today, this_week)
+    if time_range:
+        from datetime import date, timedelta
+        today = date.today()
+        if time_range == "today":
+            query = query.filter(func.date(Meeting.meeting_date) == today.isoformat())
+        elif time_range == "this_week":
+            # Monday to Sunday of the current week
+            start_of_week = today - timedelta(days=today.weekday())
+            end_of_week = start_of_week + timedelta(days=6)
+            query = query.filter(
+                func.date(Meeting.meeting_date) >= start_of_week.isoformat(),
+                func.date(Meeting.meeting_date) <= end_of_week.isoformat()
             )
 
     # Sort logic

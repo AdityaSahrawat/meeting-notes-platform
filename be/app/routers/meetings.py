@@ -15,9 +15,10 @@ def list_meetings(
     sort: Optional[str] = Query(None, description="Sort order: date/date_asc or -date/date_desc"),
     date: Optional[str] = Query(None, description="Filter by date (YYYY-MM-DD)"),
     participant: Optional[str] = Query(None, description="Filter by participant name or ID"),
+    time_range: Optional[str] = Query(None, description="Filter by time range: today or this_week"),
     db: Session = Depends(get_db)
 ):
-    return meeting_service.get_meetings(db, search, sort, date, participant)
+    return meeting_service.get_meetings(db, search, sort, date, participant, time_range)
 
 @router.get("/meetings/{meeting_id}", response_model=MeetingDetailResponse, tags=["Meetings"])
 def get_meeting(meeting_id: int, db: Session = Depends(get_db)):

@@ -15,6 +15,7 @@ class MeetingBase(BaseModel):
     title: str
     duration_seconds: int
     summary: Optional[str] = None
+    llm_summary: Optional[str] = None
 
 class MeetingCreate(MeetingBase):
     meeting_date: datetime
@@ -26,6 +27,7 @@ class MeetingUpdate(BaseModel):
     duration_seconds: Optional[int] = None
     participant_ids: Optional[List[int]] = None
     summary: Optional[str] = None
+    llm_summary: Optional[str] = None
 
 # Validator to map participant objects to their names before validation
 def coerce_participants_to_names(v) -> List[str]:
