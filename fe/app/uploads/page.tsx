@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { saveVideoFile } from "@/lib/db";
+
 import {
     Upload,
     Video,
@@ -232,8 +232,20 @@ export default function UploadPage() {
             const meetingId = createdMeeting.id;
 
             if (videoFile) {
-                setUploadStep("Caching video/audio recording locally in browser...");
-                await saveVideoFile(meetingId, videoFile);
+                // Upload to backend server (persists across devices & browser clears)
+                setUploadStep("Uploading video/audio recording to server...");
+                const formData = new FormData();
+                formData.append("file", videoFile);
+                const videoUploadRes = await fetch(`${API_URL}/meetings/${meetingId}/video`, {
+                    method: "POST",
+                    body: formData,
+                });
+                if (!videoUploadRes.ok) {
+                    // Non-fatal: fall back to IndexedDB cache
+                    console.warn("Server video upload failed, falling back to IndexedDB cache.");
+                    const { saveVideoFile } = await import("@/lib/db");
+                    await saveVideoFile(meetingId, videoFile);
+                }
             }
 
             // Step 2: Upload transcript segments

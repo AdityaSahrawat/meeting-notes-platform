@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Table
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Table, Boolean
 from sqlalchemy.orm import relationship
 from app.database.db import Base
 
@@ -19,6 +19,8 @@ class Meeting(Base):
     llm_summary = Column(Text, nullable=True)
     duration_seconds = Column(Integer, nullable=False)
     meeting_date = Column(DateTime, nullable=False)
+    video_path = Column(String(500), nullable=True)  # server-side path to the MP4 file
+    is_seeded = Column(Boolean, default=False, nullable=False)  # True if this row was auto-seeded
 
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))

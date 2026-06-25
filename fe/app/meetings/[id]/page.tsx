@@ -475,21 +475,36 @@ export default function MeetingDetailPage() {
         if (id) {
             fetchMeetingDetails();
 
-            // Load cached video from IndexedDB if present
-            const loadCachedVideo = async () => {
+            // Load video: try backend first, then fall back to IndexedDB
+            const loadVideo = async () => {
+                try {
+                    // 1. Try backend endpoint
+                    const backendUrl = `${API_URL}/meetings/${id}/video`;
+                    const probe = await fetch(backendUrl, { method: "HEAD" }).catch(() => null);
+                    if (probe && probe.ok) {
+                        setVideoSrc(backendUrl);
+                        setVideoFileName(`meeting_${id}.mp4`);
+                        setShowVideo(true);
+                        return;
+                    }
+                } catch {
+                    // ignore — try IndexedDB
+                }
+
+                // 2. Fall back to IndexedDB cache
                 try {
                     const cachedFile = await getVideoFile(Number(id));
                     if (cachedFile) {
                         setVideoFileName(cachedFile.name);
                         const url = URL.createObjectURL(cachedFile);
                         setVideoSrc(url);
-                        setShowVideo(true); // Automatically show video overlay
+                        setShowVideo(true);
                     }
                 } catch (err) {
                     console.error("Error loading cached video from IndexedDB:", err);
                 }
             };
-            loadCachedVideo();
+            loadVideo();
         }
     }, [id]);
 
