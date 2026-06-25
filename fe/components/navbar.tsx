@@ -1,23 +1,39 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { Search, Mic, Bell, ChevronDown, Video } from "lucide-react";
+
+const pageTitles: Record<string, string> = {
+    "/": "Home",
+    "/meetings": "Meetings",
+    "/askfred": "AskFred",
+    "/meeting-status": "Meeting Status",
+    "/uploads": "Uploads",
+    "/integrations": "Integrations",
+    "/analytics": "Analytics",
+    "/voice-agents": "Voice Agents",
+    "/ai-skills": "AI Skills",
+    "/team": "Team",
+    "/upgrade": "Upgrade",
+    "/settings": "Settings",
+};
 
 interface NavbarProps {
     collapsed: boolean;
 }
 
 export default function Navbar({ collapsed }: NavbarProps) {
+    const pathname = usePathname();
     const leftOffset = collapsed ? 68 : 228;
+    const title = pageTitles[pathname] ?? "Home";
 
     return (
         <header
             className="fixed top-0 right-0 h-14 bg-white border-b border-gray-100 flex items-center px-5 gap-4 z-20 transition-all duration-300"
             style={{ left: leftOffset }}
         >
-            {/* Page title */}
-            <span className="text-[15px] font-semibold text-gray-800 min-w-[60px]">Home</span>
+            <span className="text-[15px] font-semibold text-gray-800 min-w-[60px]">{title}</span>
 
-            {/* Search bar */}
             <div className="flex-1 max-w-[420px] mx-auto">
                 <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-400">
                     <Search size={15} className="text-gray-400 shrink-0" />
@@ -28,7 +44,6 @@ export default function Navbar({ collapsed }: NavbarProps) {
                 </div>
             </div>
 
-            {/* Right controls */}
             <div className="flex items-center gap-2 ml-auto">
                 <span className="text-[13px] text-gray-500 whitespace-nowrap">Unlimited Meetings</span>
                 <button className="text-[13px] font-semibold text-green-600 border border-green-500 rounded-full px-3 py-1 hover:bg-green-50 transition-colors">

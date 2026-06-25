@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
     Home,
     Video,
@@ -23,25 +25,25 @@ import {
 interface NavItem {
     icon: React.ElementType;
     label: string;
-    active?: boolean;
+    href: string;
     badge?: string;
     group: number;
 }
 
 const navItems: NavItem[] = [
-    { icon: Home, label: "Home", active: true, group: 1 },
-    { icon: Bot, label: "AskFred", group: 1 },
-    { icon: Video, label: "Meetings", group: 1 },
-    { icon: Activity, label: "Meeting Status", group: 1 },
-    { icon: Upload, label: "Uploads", group: 1 },
-    { icon: Layers, label: "Integrations", group: 2 },
-    { icon: BarChart2, label: "Analytics", group: 2 },
-    { icon: Mic, label: "Voice Agents", badge: "NEW", group: 3 },
-    { icon: Sparkles, label: "AI Skills", group: 3 },
-    { icon: Users, label: "Team", group: 4 },
-    { icon: Star, label: "Upgrade", group: 4 },
-    { icon: Settings, label: "Settings", group: 4 },
-    { icon: MoreHorizontal, label: "More", group: 4 },
+    { icon: Home, label: "Home", href: "/", group: 1 },
+    { icon: Bot, label: "AskFred", href: "/askfred", group: 1 },
+    { icon: Video, label: "Meetings", href: "/meetings", group: 1 },
+    { icon: Activity, label: "Meeting Status", href: "/meeting-status", group: 1 },
+    { icon: Upload, label: "Uploads", href: "/uploads", group: 1 },
+    { icon: Layers, label: "Integrations", href: "/integrations", group: 2 },
+    { icon: BarChart2, label: "Analytics", href: "/analytics", group: 2 },
+    { icon: Mic, label: "Voice Agents", href: "/voice-agents", badge: "NEW", group: 3 },
+    { icon: Sparkles, label: "AI Skills", href: "/ai-skills", group: 3 },
+    { icon: Users, label: "Team", href: "/team", group: 4 },
+    { icon: Star, label: "Upgrade", href: "/upgrade", group: 4 },
+    { icon: Settings, label: "Settings", href: "/settings", group: 4 },
+    { icon: MoreHorizontal, label: "More", href: "#", group: 4 },
 ];
 
 const groups = [1, 2, 3, 4];
@@ -62,6 +64,7 @@ interface SidebarProps {
 export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
     const [hovered, setHovered] = useState(false);
     const [logoHovered, setLogoHovered] = useState(false);
+    const pathname = usePathname();
 
     return (
         <aside
@@ -72,8 +75,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
         >
             {/* ── Logo row ── */}
             <div className="flex items-center h-14 px-3 gap-2 relative">
-
-                {/* Collapsed: logo icon with >> overlay on hover */}
                 {collapsed ? (
                     <button
                         className="relative w-7 h-7 flex items-center justify-center mx-auto cursor-pointer"
@@ -83,7 +84,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                         title="Expand sidebar"
                     >
                         <FirefliesLogo />
-                        {/* >> overlay */}
                         {logoHovered && (
                             <span className="absolute inset-0 flex items-center justify-center rounded-md bg-violet-700 bg-opacity-90">
                                 <ChevronsRight size={16} className="text-white" />
@@ -91,19 +91,13 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                         )}
                     </button>
                 ) : (
-                    /* Expanded: logo + text + << toggle button on hover */
                     <>
-                        {/* Logo icon */}
                         <div className="w-7 h-7 shrink-0">
                             <FirefliesLogo />
                         </div>
-
-                        {/* Logo text */}
                         <span className="flex-1 text-[15px] font-semibold text-gray-900 tracking-tight whitespace-nowrap overflow-hidden">
                             fireflies.ai
                         </span>
-
-                        {/* << toggle — shown when sidebar is hovered, same row as text */}
                         <button
                             onClick={onToggle}
                             className={`shrink-0 w-8 h-8 rounded-xl border border-gray-200 bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition-all duration-150 ${hovered ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
@@ -116,14 +110,12 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 )}
             </div>
 
-            {/* Tooltip for collapsed >> — shown below logo on logo hover */}
+            {/* Tooltips */}
             {collapsed && logoHovered && (
                 <div className="absolute left-[76px] top-3 bg-gray-800 text-white text-[11px] font-medium rounded-lg px-2.5 py-1.5 whitespace-nowrap shadow-lg pointer-events-none z-50">
                     Expand sidebar
                 </div>
             )}
-
-            {/* Tooltip for expanded << — shown below toggle button on sidebar hover */}
             {!collapsed && hovered && (
                 <div className="absolute right-2 top-[54px] bg-gray-800 text-white text-[11px] font-medium rounded-lg px-2.5 py-1.5 whitespace-nowrap shadow-lg pointer-events-none z-50">
                     Collapse sidebar
@@ -139,11 +131,17 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                             .filter((item) => item.group === group)
                             .map((item) => {
                                 const Icon = item.icon;
+                                const isActive =
+                                    item.href === "/"
+                                        ? pathname === "/"
+                                        : pathname.startsWith(item.href);
+
                                 return (
-                                    <button
+                                    <Link
                                         key={item.label}
+                                        href={item.href}
                                         className={`w-full flex items-center rounded-lg mb-[2px] transition-colors ${collapsed ? "justify-center px-0 py-[9px]" : "gap-3 px-3 py-[7px]"
-                                            } ${item.active
+                                            } ${isActive
                                                 ? "bg-violet-50 text-violet-700"
                                                 : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                             }`}
@@ -151,8 +149,8 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                                     >
                                         <Icon
                                             size={18}
-                                            className={item.active ? "text-violet-600 shrink-0" : "text-gray-400 shrink-0"}
-                                            strokeWidth={item.active ? 2.2 : 1.8}
+                                            className={isActive ? "text-violet-600 shrink-0" : "text-gray-400 shrink-0"}
+                                            strokeWidth={isActive ? 2.2 : 1.8}
                                         />
                                         {!collapsed && (
                                             <span className="flex-1 text-left text-[13.5px] font-medium whitespace-nowrap">
@@ -164,7 +162,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                                                 NEW
                                             </span>
                                         )}
-                                    </button>
+                                    </Link>
                                 );
                             })}
                     </div>

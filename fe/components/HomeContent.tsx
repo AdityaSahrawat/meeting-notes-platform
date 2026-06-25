@@ -338,7 +338,7 @@ function TryMore() {
 
 export default function HomeContent() {
     return (
-        <div className="flex flex-col min-h-screen bg-white relative">
+        <div className="flex flex-col flex-1 overflow-y-auto bg-white relative">
             {/* Hero section */}
             <div
                 className="relative flex items-center justify-center overflow-hidden"
