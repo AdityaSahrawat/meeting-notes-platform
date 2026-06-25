@@ -71,7 +71,7 @@ export default function Navbar({ collapsed }: NavbarProps) {
         if (!name) return "P";
         const cleaned = name.trim();
         if (/^\d/.test(cleaned)) {
-            return "BI"; 
+            return "BI";
         }
         const parts = cleaned.split(/\s+/);
         if (parts.length > 1) {
@@ -177,9 +177,8 @@ export default function Navbar({ collapsed }: NavbarProps) {
 
     return (
         <header
-            className={`fixed top-0 right-0 h-14 bg-white border-b border-gray-100 flex items-center px-5 gap-4 transition-all duration-300 ${
-                isSearchOpen ? "z-50" : "z-20"
-            }`}
+            className={`fixed top-0 right-0 h-14 bg-white border-b border-gray-100 flex items-center px-5 gap-4 transition-all duration-300 ${isSearchOpen ? "z-50" : "z-20"
+                }`}
             style={{ left: leftOffset }}
         >
             <span className="text-[15px] font-semibold text-gray-800 min-w-[60px]">{title}</span>
@@ -209,7 +208,7 @@ export default function Navbar({ collapsed }: NavbarProps) {
                         Capture
                     </button>
                     <button className="bg-violet-600 hover:bg-violet-700 text-white px-2 py-[6px] rounded-r-lg border-l border-violet-500 transition-colors">
-                        <ChevronDown size={14} />
+                        <ChevronDown size={20} />
                     </button>
                 </div>
 
@@ -231,12 +230,12 @@ export default function Navbar({ collapsed }: NavbarProps) {
                 <div className="fixed inset-0 bg-black/45 backdrop-blur-[2px] z-50 flex justify-center pt-[80px] p-4 animate-in fade-in duration-200">
                     {/* Active dropdown click catcher */}
                     {activeDropdown && (
-                        <div 
-                            className="fixed inset-0 z-40 bg-transparent" 
+                        <div
+                            className="fixed inset-0 z-40 bg-transparent"
                             onClick={() => {
                                 setActiveDropdown(null);
                                 setDropdownSearch("");
-                            }} 
+                            }}
                         />
                     )}
 
@@ -340,7 +339,7 @@ export default function Navbar({ collapsed }: NavbarProps) {
                                     <div className="flex items-center gap-4">
                                         {/* Host dropdown */}
                                         <div className="relative">
-                                            <button 
+                                            <button
                                                 onClick={() => {
                                                     setDropdownSearch("");
                                                     setActiveDropdown(activeDropdown === "host" ? null : "host");
@@ -355,16 +354,16 @@ export default function Navbar({ collapsed }: NavbarProps) {
                                                     {/* Dropdown search bar */}
                                                     <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-400">
                                                         <Search size={13} className="text-gray-400 shrink-0" />
-                                                        <input 
-                                                            type="text" 
-                                                            placeholder="Search" 
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Search"
                                                             value={dropdownSearch}
                                                             onChange={(e) => setDropdownSearch(e.target.value)}
                                                             className="w-full text-xs text-gray-700 bg-transparent outline-none font-medium"
                                                             autoFocus
                                                         />
                                                     </div>
-                                                    
+
                                                     {/* List of participants */}
                                                     <div className="max-h-48 overflow-y-auto flex flex-col gap-1 pr-0.5">
                                                         {filteredDropdownParticipants.length === 0 ? (
@@ -377,11 +376,11 @@ export default function Navbar({ collapsed }: NavbarProps) {
                                                                 const colorClass = colors[p.id % colors.length];
 
                                                                 return (
-                                                                    <label 
-                                                                        key={p.id} 
+                                                                    <label
+                                                                        key={p.id}
                                                                         className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-gray-50 cursor-pointer text-[12.5px] font-semibold text-gray-700 select-none"
                                                                     >
-                                                                        <input 
+                                                                        <input
                                                                             type="checkbox"
                                                                             checked={isChecked}
                                                                             onChange={() => setHostFilter(isChecked ? "" : p.name)}
@@ -396,10 +395,10 @@ export default function Navbar({ collapsed }: NavbarProps) {
                                                             })
                                                         )}
                                                     </div>
-                                                    
+
                                                     {/* Footer Clear */}
                                                     <div className="flex justify-end border-t border-gray-100 pt-2 mt-0.5">
-                                                        <button 
+                                                        <button
                                                             onClick={() => {
                                                                 setHostFilter("");
                                                                 setActiveDropdown(null);
@@ -415,7 +414,7 @@ export default function Navbar({ collapsed }: NavbarProps) {
 
                                         {/* Participant dropdown */}
                                         <div className="relative">
-                                            <button 
+                                            <button
                                                 onClick={() => {
                                                     setDropdownSearch("");
                                                     setActiveDropdown(activeDropdown === "participant" ? null : "participant");
@@ -430,16 +429,16 @@ export default function Navbar({ collapsed }: NavbarProps) {
                                                     {/* Dropdown search bar */}
                                                     <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-400">
                                                         <Search size={13} className="text-gray-400 shrink-0" />
-                                                        <input 
-                                                            type="text" 
-                                                            placeholder="Search" 
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Search"
                                                             value={dropdownSearch}
                                                             onChange={(e) => setDropdownSearch(e.target.value)}
                                                             className="w-full text-xs text-gray-700 bg-transparent outline-none font-medium"
                                                             autoFocus
                                                         />
                                                     </div>
-                                                    
+
                                                     {/* List of participants */}
                                                     <div className="max-h-48 overflow-y-auto flex flex-col gap-1 pr-0.5">
                                                         {filteredDropdownParticipants.length === 0 ? (
@@ -452,11 +451,11 @@ export default function Navbar({ collapsed }: NavbarProps) {
                                                                 const colorClass = colors[p.id % colors.length];
 
                                                                 return (
-                                                                    <label 
-                                                                        key={p.id} 
+                                                                    <label
+                                                                        key={p.id}
                                                                         className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-gray-50 cursor-pointer text-[12.5px] font-semibold text-gray-700 select-none"
                                                                     >
-                                                                        <input 
+                                                                        <input
                                                                             type="checkbox"
                                                                             checked={isChecked}
                                                                             onChange={() => setParticipantFilter(isChecked ? "" : p.name)}
@@ -471,10 +470,10 @@ export default function Navbar({ collapsed }: NavbarProps) {
                                                             })
                                                         )}
                                                     </div>
-                                                    
+
                                                     {/* Footer Clear */}
                                                     <div className="flex justify-end border-t border-gray-100 pt-2 mt-0.5">
-                                                        <button 
+                                                        <button
                                                             onClick={() => {
                                                                 setParticipantFilter("");
                                                                 setActiveDropdown(null);
