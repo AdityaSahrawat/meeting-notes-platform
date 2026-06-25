@@ -159,7 +159,7 @@ function WelcomeCard() {
                     {process.env.NEXT_PUBLIC_INSTANCE === "prod" && (
                         <div className="mt-4 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5 max-w-md mx-auto text-center flex items-center justify-center gap-2 text-[12.5px] text-red-700 font-semibold shadow-sm">
                             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0" />
-                            <span>Before testing, please make sure the backend server is running on: <a href="http://fireflies-backend-7auw.onrender.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-900 transition-colors">http://fireflies-backend-7auw.onrender.com/</a></span>
+                            <span>Before testing, please make sure the backend server is running on: <a href="https://fireflies-backend-7auw.onrender.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-900 transition-colors">https://fireflies-backend-7auw.onrender.com/</a></span>
                         </div>
                     )}
                 </div>
