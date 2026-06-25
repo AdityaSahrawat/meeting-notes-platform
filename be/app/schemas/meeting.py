@@ -54,3 +54,23 @@ class MeetingDetailResponse(MeetingBase):
     action_items: List[ActionItemResponse]
 
     model_config = ConfigDict(from_attributes=True)
+
+class GlobalSearchResultSegment(BaseModel):
+    id: int
+    timestamp_seconds: int
+    speaker: str
+    content: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+class GlobalSearchResult(BaseModel):
+    id: int
+    title: str
+    meeting_date: datetime
+    duration_seconds: int
+    participants: List[str]
+    instances_count: int
+    matching_segments: List[GlobalSearchResultSegment]
+
+    model_config = ConfigDict(from_attributes=True)
+

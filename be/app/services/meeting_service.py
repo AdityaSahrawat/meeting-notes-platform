@@ -161,3 +161,81 @@ def create_participant(db: Session, participant_data: ParticipantCreate) -> Part
     db.commit()
     db.refresh(db_participant)
     return db_participant
+
+def global_search_meetings(
+    db: Session,
+    q: Optional[str] = None,
+    title_only: bool = False,
+    host_filter: Optional[str] = None,
+    participant_filter: Optional[str] = None,
+    time_range: Optional[str] = None,
+    sort: Optional[str] = "newest"
+) -> List[dict]:
+    meetings = db.query(Meeting).all()
+    results = []
+    
+    q_lower = q.lower().strip() if q else ""
+    
+    for meeting in meetings:
+        # Check title matches
+        title_matches = q_lower in meeting.title.lower() if q_lower else True
+        
+        # Check transcript matches
+        matching_segs = []
+        if not title_only and q_lower:
+            for seg in meeting.transcript:
+                if q_lower in seg.content.lower():
+                    matching_segs.append({
+                        "id": seg.id,
+                        "timestamp_seconds": seg.timestamp_seconds,
+                        "speaker": seg.speaker,
+                        "content": seg.content
+                    })
+        
+        # If a search term is specified, we must match either the title or have matching segments
+        if q_lower and not title_matches and not matching_segs:
+            continue
+            
+        participants_names = [p.name for p in meeting.participants]
+        
+        # Host filter (assuming host is the first participant, or just checking if host matches any participant)
+        if host_filter:
+            if not any(host_filter.lower() in p.lower() for p in participants_names):
+                continue
+                
+        # Participant filter
+        if participant_filter:
+            if not any(participant_filter.lower() in p.lower() for p in participants_names):
+                continue
+                
+        # Time range filter
+        if time_range:
+            from datetime import date, timedelta
+            meeting_date_only = meeting.meeting_date.date()
+            today = date.today()
+            if time_range == "today" and meeting_date_only != today:
+                continue
+            elif time_range == "this_week":
+                start_of_week = today - timedelta(days=today.weekday())
+                end_of_week = start_of_week + timedelta(days=6)
+                if not (start_of_week <= meeting_date_only <= end_of_week):
+                    continue
+                    
+        results.append({
+            "id": meeting.id,
+            "title": meeting.title,
+            "meeting_date": meeting.meeting_date,
+            "duration_seconds": meeting.duration_seconds,
+            "participants": participants_names,
+            "instances_count": len(matching_segs),
+            "matching_segments": matching_segs
+        })
+        
+    # Sort results
+    if sort == "oldest":
+        results.sort(key=lambda x: x["meeting_date"])
+    else: # newest
+        results.sort(key=lambda x: x["meeting_date"], reverse=True)
+        
+    return results
+

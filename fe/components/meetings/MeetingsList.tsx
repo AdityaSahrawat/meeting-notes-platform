@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { SlidersHorizontal, Search, ChevronRight, MessageCircle, AlertCircle, Loader2, Trash2 } from "lucide-react";
+import { SlidersHorizontal, Search, ChevronRight, MessageCircle, AlertCircle, Loader2, Trash2, Inbox } from "lucide-react";
 import { toast } from "sonner";
 
 interface Meeting {
@@ -265,33 +265,57 @@ export default function MeetingsList() {
                         </button>
                     </div>
                 ) : groupedMeetings.length === 0 ? (
-                    <div className="flex-1 flex flex-col items-center justify-center py-12 text-center">
-                        <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center mb-3">
-                            <SlidersHorizontal size={20} className="text-gray-400" />
-                        </div>
-                        <p className="text-[14px] font-bold text-gray-800">No meetings found</p>
-                        <p className="text-[13px] text-gray-500 mt-1 max-w-sm">
-                            Try adjusting your search criteria, clearing your filters, or upload a new meeting to get started.
-                        </p>
-                        <div className="flex gap-3 mt-4">
-                            <button
-                                onClick={() => {
-                                    setSearchQuery("");
-                                    setDateFilter("");
-                                    setParticipantFilter("");
-                                }}
-                                className="px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-xl text-[13px] font-semibold transition-colors"
-                            >
-                                Clear filters
-                            </button>
-                            <Link
-                                href="/uploads"
-                                className="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-[13px] font-semibold shadow-sm transition-colors"
-                            >
-                                Upload Meeting
-                            </Link>
-                        </div>
-                    </div>
+                    (() => {
+                        const hasActiveFilters = searchQuery !== "" || dateFilter !== "" || participantFilter !== "" || timeRangeFilter !== "";
+                        return hasActiveFilters ? (
+                            <div className="flex-1 flex flex-col items-center justify-center py-12 text-center select-none animate-in fade-in duration-200">
+                                <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center mb-3">
+                                    <SlidersHorizontal size={20} className="text-gray-400" />
+                                </div>
+                                <p className="text-[14px] font-bold text-gray-800">No meetings found</p>
+                                <p className="text-[13px] text-gray-500 mt-1 max-w-sm">
+                                    Try adjusting your search criteria, clearing your filters, or upload a new meeting to get started.
+                                </p>
+                                <div className="flex gap-3 mt-4">
+                                    <button
+                                        onClick={() => {
+                                            setSearchQuery("");
+                                            setDateFilter("");
+                                            setParticipantFilter("");
+                                            setTimeRangeFilter("");
+                                        }}
+                                        className="px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-xl text-[13px] font-semibold transition-colors cursor-pointer"
+                                    >
+                                        Clear filters
+                                    </button>
+                                    <Link
+                                        href="/uploads"
+                                        className="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-[13px] font-semibold shadow-sm transition-colors"
+                                    >
+                                        Upload Meeting
+                                    </Link>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex-1 flex flex-col items-center justify-center py-16 text-center select-none animate-in fade-in duration-200">
+                                <div className="w-14 h-14 rounded-2xl bg-violet-50 flex items-center justify-center mb-4 text-violet-600">
+                                    <Inbox size={24} />
+                                </div>
+                                <p className="text-[15px] font-bold text-gray-800">No meetings yet. Upload your first meeting.</p>
+                                <p className="text-[13px] text-gray-500 mt-1 max-w-sm">
+                                    Capture and search your first conversation to unlock transcripts, AI dynamic summaries, outlines, and task tracking.
+                                </p>
+                                <div className="mt-5">
+                                    <Link
+                                        href="/uploads"
+                                        className="px-5 py-2.5 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-[13px] font-semibold shadow-md transition-all inline-flex items-center gap-1.5 active:scale-95"
+                                    >
+                                        <span>Upload your first meeting</span>
+                                    </Link>
+                                </div>
+                            </div>
+                        );
+                    })()
                 ) : (
                     <div className="flex flex-col gap-5">
                         {groupedMeetings.map((group) => (

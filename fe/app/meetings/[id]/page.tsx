@@ -731,7 +731,11 @@ export default function MeetingDetailPage() {
                     <button className="text-gray-500 hover:text-gray-700 cursor-pointer">
                         <Menu size={18} />
                     </button>
-                    <button className="text-gray-400 hover:text-gray-600 cursor-pointer">
+                    <button 
+                        onClick={() => window.dispatchEvent(new Event("open-global-search"))}
+                        className="text-gray-400 hover:text-gray-600 cursor-pointer"
+                        title="Search meetings"
+                    >
                         <Search size={15} />
                     </button>
                     <div className="h-4 w-px bg-gray-200" />
@@ -1146,7 +1150,7 @@ export default function MeetingDetailPage() {
                                                         <span>·</span>
                                                         <button
                                                             onClick={() => seekTo(seg.timestamp_seconds)}
-                                                            className="underline hover:text-violet-700 transition-colors"
+                                                            className="underline hover:text-violet-700 transition-colors hover:cursor-pointer"
                                                         >
                                                             {formatTime(seg.timestamp_seconds)}
                                                         </button>
@@ -1252,7 +1256,6 @@ export default function MeetingDetailPage() {
                     ref={videoRef}
                     src={videoSrc}
                     className="hidden"
-                    autoPlay
                     onTimeUpdate={handleVideoTimeUpdate}
                     onLoadedMetadata={handleVideoLoadedMetadata}
                     onPlay={handleVideoPlay}

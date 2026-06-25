@@ -50,6 +50,7 @@ export default function UploadPage() {
     const [uploading, setUploading] = useState(false);
     const [uploadStep, setUploadStep] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
+    const [validated, setValidated] = useState(false);
 
     // Default meeting date to current local date/time
     useEffect(() => {
@@ -149,24 +150,17 @@ export default function UploadPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
+        setValidated(true);
 
         // Validation
-        if (!title.trim()) {
-            setError("Meeting title is required.");
-            return;
-        }
-        if (!meetingDate) {
-            setError("Meeting date and time is required.");
-            return;
-        }
-        if (!transcriptText.trim()) {
-            setError("Transcript text is required.");
+        if (!title.trim() || !meetingDate || !transcriptText.trim()) {
+            setError("Please fill out all required fields marked in red.");
             return;
         }
 
         const segments = parseTranscript(transcriptText);
         if (segments.length === 0) {
-            setError("Transcript could not be parsed. Please check that it fits the 3-line chunk guidelines.");
+            setError("Transcript could not be parsed. Please verify the speaker and text formats.");
             return;
         }
 
@@ -362,9 +356,18 @@ export default function UploadPage() {
                                 placeholder="e.g. Project Sync Session"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className="w-full text-[13px] border border-gray-200 rounded-xl p-2.5 outline-none focus:border-violet-300 transition-all bg-white"
-                                required
+                                className={`w-full text-[13px] border rounded-xl p-2.5 outline-none transition-all bg-white ${
+                                    validated && !title.trim()
+                                        ? "border-red-300 focus:border-red-400 focus:ring-1 focus:ring-red-150"
+                                        : "border-gray-200 focus:border-violet-300"
+                                }`}
                             />
+                            {validated && !title.trim() && (
+                                <span className="text-[11.5px] text-red-600 font-bold mt-1 flex items-center gap-1 select-none animate-in fade-in duration-100">
+                                    <AlertCircle size={12} className="shrink-0" />
+                                    <span>Meeting title is required</span>
+                                </span>
+                            )}
                         </div>
 
                         <div className="flex flex-col gap-1.5">
@@ -376,9 +379,18 @@ export default function UploadPage() {
                                 type="datetime-local"
                                 value={meetingDate}
                                 onChange={(e) => setMeetingDate(e.target.value)}
-                                className="w-full text-[13px] border border-gray-200 rounded-xl p-2.5 outline-none focus:border-violet-300 transition-all bg-white"
-                                required
+                                className={`w-full text-[13px] border rounded-xl p-2.5 outline-none transition-all bg-white ${
+                                    validated && !meetingDate
+                                        ? "border-red-300 focus:border-red-400 focus:ring-1 focus:ring-red-150"
+                                        : "border-gray-200 focus:border-violet-300"
+                                }`}
                             />
+                            {validated && !meetingDate && (
+                                <span className="text-[11.5px] text-red-600 font-bold mt-1 flex items-center gap-1 select-none animate-in fade-in duration-100">
+                                    <AlertCircle size={12} className="shrink-0" />
+                                    <span>Meeting date and time is required</span>
+                                </span>
+                            )}
                         </div>
                     </div>
 
@@ -427,9 +439,24 @@ export default function UploadPage() {
                             value={transcriptText}
                             onChange={(e) => setTranscriptText(e.target.value)}
                             rows={8}
-                            className="w-full text-[13px] font-mono border border-gray-200 rounded-xl p-3 outline-none focus:border-violet-300 transition-all bg-white resize-y leading-relaxed"
-                            required
+                            className={`w-full text-[13px] font-mono border rounded-xl p-3 outline-none transition-all bg-white resize-y leading-relaxed ${
+                                validated && (!transcriptText.trim() || parseTranscript(transcriptText).length === 0)
+                                    ? "border-red-300 focus:border-red-400 focus:ring-1 focus:ring-red-150"
+                                    : "border-gray-200 focus:border-violet-300"
+                            }`}
                         />
+                        {validated && !transcriptText.trim() && (
+                            <span className="text-[11.5px] text-red-600 font-bold mt-1 flex items-center gap-1 select-none animate-in fade-in duration-100">
+                                <AlertCircle size={12} className="shrink-0" />
+                                <span>Transcript text is required</span>
+                            </span>
+                        )}
+                        {validated && transcriptText.trim() && parseTranscript(transcriptText).length === 0 && (
+                            <span className="text-[11.5px] text-red-600 font-bold mt-1 flex items-center gap-1 select-none animate-in fade-in duration-100">
+                                <AlertCircle size={12} className="shrink-0" />
+                                <span>Transcript could not be parsed. Please check speaker and text formatting.</span>
+                            </span>
+                        )}
                     </div>
 
                     {/* Step 5: Action Items Checklist Builder */}

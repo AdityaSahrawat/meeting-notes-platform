@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from app.database.db import get_db
-from app.schemas.meeting import MeetingCreate, MeetingUpdate, MeetingListResponse, MeetingDetailResponse
+from app.schemas.meeting import MeetingCreate, MeetingUpdate, MeetingListResponse, MeetingDetailResponse, GlobalSearchResult
 from app.schemas.participant import ParticipantCreate, ParticipantResponse
 from app.services import meeting_service
 from typing import List, Optional
@@ -19,6 +19,20 @@ def list_meetings(
     db: Session = Depends(get_db)
 ):
     return meeting_service.get_meetings(db, search, sort, date, participant, time_range)
+
+@router.get("/meetings/search_global", response_model=List[GlobalSearchResult], tags=["Meetings"])
+def search_meetings_global(
+    q: Optional[str] = Query(None, description="Search keyword across title and transcript"),
+    title_only: bool = Query(False, description="Search in title only"),
+    host: Optional[str] = Query(None, description="Filter by host name"),
+    participant: Optional[str] = Query(None, description="Filter by participant name"),
+    time_range: Optional[str] = Query(None, description="Filter by time range: today or this_week"),
+    sort: Optional[str] = Query("newest", description="Sort order: newest or oldest"),
+    db: Session = Depends(get_db)
+):
+    return meeting_service.global_search_meetings(
+        db, q, title_only, host, participant, time_range, sort
+    )
 
 @router.get("/meetings/{meeting_id}", response_model=MeetingDetailResponse, tags=["Meetings"])
 def get_meeting(meeting_id: int, db: Session = Depends(get_db)):
