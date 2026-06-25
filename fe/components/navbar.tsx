@@ -23,6 +23,8 @@ interface NavbarProps {
     collapsed: boolean;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export default function Navbar({ collapsed }: NavbarProps) {
     const pathname = usePathname();
     const router = useRouter();
@@ -47,7 +49,7 @@ export default function Navbar({ collapsed }: NavbarProps) {
 
     const fetchParticipants = async () => {
         try {
-            const res = await fetch("http://localhost:8000/participants");
+            const res = await fetch(`${API_URL}/participants`);
             if (res.ok) {
                 const data = await res.json();
                 setParticipantsList(data);
@@ -140,7 +142,7 @@ export default function Navbar({ collapsed }: NavbarProps) {
             if (timeRangeFilter) params.append("time_range", timeRangeFilter);
             params.append("sort", sortOrder);
 
-            const res = await fetch(`http://localhost:8000/meetings/search_global?${params.toString()}`);
+            const res = await fetch(`${API_URL}/meetings/search_global?${params.toString()}`);
             if (res.ok) {
                 const data = await res.json();
                 setSearchResults(data);

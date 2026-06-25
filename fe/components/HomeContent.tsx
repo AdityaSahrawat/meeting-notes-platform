@@ -15,49 +15,118 @@ import {
 
 function DashboardMockup() {
     return (
-        <div className="w-full max-w-[340px] mx-auto rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white text-[7px]">
-            {/* Mock top bar */}
-            <div className="bg-gray-800 px-2 py-1 flex items-center gap-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
-                <div className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
-                <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                <div className="flex-1 bg-gray-600 rounded ml-2 h-1.5" />
-            </div>
-            {/* Mock content */}
-            <div className="flex" style={{ height: "160px" }}>
-                {/* Sidebar */}
-                <div className="w-10 bg-white border-r border-gray-100 p-1 flex flex-col gap-1">
-                    <div className="h-1.5 w-6 bg-violet-200 rounded" />
-                    <div className="h-1 w-5 bg-gray-100 rounded" />
-                    <div className="h-1 w-5 bg-gray-100 rounded" />
-                    <div className="h-1 w-5 bg-gray-100 rounded" />
-                    <div className="h-1 w-5 bg-gray-100 rounded" />
-                    <div className="mt-1 h-[1px] bg-gray-100 w-full" />
-                    <div className="h-1 w-5 bg-gray-100 rounded" />
-                    <div className="h-1 w-5 bg-gray-100 rounded" />
+        <div className="w-full max-w-[480px] mx-auto rounded-xl overflow-hidden shadow-2xl border border-gray-150 bg-white text-[9px] font-sans flex flex-col select-none">
+            {/* Window control header */}
+            <div className="bg-gray-50 border-b border-gray-100 px-3 py-1.5 flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full bg-red-400" />
+                    <div className="w-2 h-2 rounded-full bg-yellow-400" />
+                    <div className="w-2 h-2 rounded-full bg-green-400" />
                 </div>
-                {/* Main */}
-                <div className="flex-1 p-2 bg-gray-50">
-                    <div className="text-[8px] font-bold text-gray-700 mb-2">Good Morning, Janice</div>
-                    <div className="grid grid-cols-3 gap-1 mb-2">
-                        <div className="bg-white rounded p-1 shadow-sm">
-                            <div className="h-1 w-4 bg-gray-200 rounded mb-0.5" />
-                            <div className="text-[7px] font-bold text-gray-600">0 Tasks</div>
+                <div className="bg-gray-100/60 rounded px-6 py-0.5 text-[7px] text-gray-400 font-semibold font-mono">fireflies.ai</div>
+                <div className="w-6" />
+            </div>
+
+            <div className="flex" style={{ height: "240px" }}>
+                {/* Sidebar */}
+                <div className="w-[105px] bg-white border-r border-gray-100 p-2 flex flex-col gap-1 shrink-0">
+                    <div className="flex items-center gap-1 mb-2.5 px-1 mt-0.5">
+                        <div className="w-4 h-4 rounded-md bg-violet-600 flex items-center justify-center text-white text-[9.5px] font-bold">f</div>
+                        <span className="font-bold text-gray-800 text-[10px] tracking-tight">fireflies.ai</span>
+                    </div>
+                    <div className="h-5 bg-violet-50 text-violet-700 rounded-lg px-2 flex items-center gap-1.5 font-semibold text-[8px]">
+                        <span className="w-1.5 h-1.5 rounded-full bg-violet-600" />
+                        <span>Home</span>
+                    </div>
+                    <div className="h-5 text-gray-500 rounded px-2 flex items-center gap-1.5 hover:bg-gray-50 text-[8px]">
+                        <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                        <span>Meetings</span>
+                    </div>
+                    <div className="h-5 text-gray-500 rounded px-2 flex items-center gap-1.5 hover:bg-gray-50 text-[8px]">
+                        <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                        <span>Uploads</span>
+                    </div>
+                    <div className="h-5 text-gray-500 rounded px-2 flex items-center gap-1.5 hover:bg-gray-50 text-[8px]">
+                        <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                        <span>Integrations</span>
+                    </div>
+                    <div className="mt-1.5 pt-1.5 border-t border-gray-100 flex flex-col gap-0.5">
+                        <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider px-2">Views</span>
+                        <div className="h-5 text-gray-500 rounded px-2 flex items-center gap-1.5 hover:bg-gray-50 text-[8px]">
+                            <span>Analytics</span>
                         </div>
-                        <div className="bg-white rounded p-1 shadow-sm">
-                            <div className="h-1 w-4 bg-green-200 rounded mb-0.5" />
-                            <div className="text-[7px] font-bold text-gray-600">AI Bite</div>
-                        </div>
-                        <div className="bg-white rounded p-1 shadow-sm">
-                            <div className="h-1 w-4 bg-violet-200 rounded mb-0.5" />
-                            <div className="text-[7px] font-bold text-gray-600">Analytics</div>
+                        <div className="h-5 text-gray-500 rounded px-2 flex items-center gap-1.5 hover:bg-gray-50 text-[8px]">
+                            <span>Action Items</span>
                         </div>
                     </div>
-                    <div className="bg-white rounded p-1.5 shadow-sm">
-                        <div className="h-1 w-10 bg-gray-200 rounded mb-1" />
-                        <div className="h-1 w-16 bg-gray-100 rounded mb-0.5" />
-                        <div className="h-1 w-14 bg-gray-100 rounded mb-0.5" />
-                        <div className="h-1 w-12 bg-gray-100 rounded" />
+                </div>
+
+                {/* Main panel */}
+                <div className="flex-1 bg-gray-50/60 p-2.5 flex flex-col gap-2.5 overflow-hidden">
+                    {/* Header bar */}
+                    <div className="flex items-center justify-between">
+                        <div className="flex flex-col">
+                            <span className="font-bold text-gray-800 text-[10px]">Good Morning, Janice</span>
+                            <span className="text-[7px] text-gray-400">Here is your daily overview</span>
+                        </div>
+                        <div className="bg-violet-600 text-white rounded px-2 py-0.5 text-[8px] font-semibold">
+                            + Capture
+                        </div>
+                    </div>
+
+                    {/* Stats cards */}
+                    <div className="grid grid-cols-3 gap-1.5">
+                        <div className="bg-white border border-gray-100 rounded-lg p-1.5 shadow-sm flex flex-col">
+                            <span className="text-gray-400 text-[6.5px] uppercase font-bold">Tasks</span>
+                            <span className="text-gray-800 font-bold text-[9px] mt-0.5">12 Tasks</span>
+                        </div>
+                        <div className="bg-white border border-gray-100 rounded-lg p-1.5 shadow-sm flex flex-col">
+                            <span className="text-gray-400 text-[6.5px] uppercase font-bold">AI Bite</span>
+                            <span className="text-green-600 font-bold text-[9px] mt-0.5">All Skills</span>
+                        </div>
+                        <div className="bg-white border border-gray-100 rounded-lg p-1.5 shadow-sm flex flex-col">
+                            <span className="text-gray-400 text-[6.5px] uppercase font-bold">Contacts</span>
+                            <span className="text-violet-600 font-bold text-[9px] mt-0.5">374 Contacts</span>
+                        </div>
+                    </div>
+
+                    {/* Personal Assistant Card */}
+                    <div className="bg-white border border-gray-100 rounded-lg p-2 shadow-sm flex-1 flex flex-col gap-1.5 overflow-hidden">
+                        <div className="flex items-center justify-between border-b border-gray-50 pb-1">
+                            <div className="flex items-center gap-1">
+                                <span className="text-xs">🤖</span>
+                                <div className="flex flex-col">
+                                    <span className="font-bold text-gray-800 text-[8.5px]">Personal Assistant</span>
+                                    <span className="text-[6.5px] text-gray-400">Daily Digest · 12 meetings</span>
+                                </div>
+                            </div>
+                            <span className="text-[6.5px] bg-violet-50 text-violet-600 px-1 py-0.5 rounded font-bold">Active</span>
+                        </div>
+
+                        {/* List items */}
+                        <div className="flex flex-col gap-1 overflow-hidden">
+                            <div className="flex items-start gap-1.5">
+                                <input type="checkbox" checked readOnly className="w-2 h-2 accent-violet-600 text-violet-600 rounded border-gray-300 shrink-0 mt-0.5 cursor-default" />
+                                <div className="flex flex-col min-w-0">
+                                    <span className="font-semibold text-gray-700 text-[8px] leading-none">Homepage Feedback Cleanup</span>
+                                    <span className="text-gray-400 text-[6.5px] truncate">Fixed bugs and improved first-time user experience like autoplaying video.</span>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-1.5">
+                                <input type="checkbox" checked readOnly className="w-2 h-2 accent-violet-600 text-violet-600 rounded border-gray-300 shrink-0 mt-0.5 cursor-default" />
+                                <div className="flex flex-col min-w-0">
+                                    <span className="font-semibold text-gray-700 text-[8px] leading-none">Unifying Search & AskFred</span>
+                                    <span className="text-gray-400 text-[6.5px] truncate">Plan to merge global search and askfred into a single floating input.</span>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-1.5">
+                                <input type="checkbox" readOnly className="w-2 h-2 accent-violet-600 text-violet-600 rounded border-gray-300 shrink-0 mt-0.5 cursor-default" />
+                                <div className="flex flex-col min-w-0">
+                                    <span className="font-semibold text-gray-700 text-[8px] leading-none">Meeting Feed Optimization</span>
+                                    <span className="text-gray-400 text-[6.5px] truncate">Exploring ways to keep summaries visible but cleaner...</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,14 +136,14 @@ function DashboardMockup() {
 
 function WelcomeCard() {
     return (
-        <div className="flex-1 flex items-center justify-center px-6 py-8">
-            <div className="bg-[#fdf8f0] rounded-2xl shadow-sm w-full max-w-[820px] p-8 flex flex-col items-center gap-6 relative">
+        <div className="flex-1 flex items-center justify-center px-6 py-4">
+            <div className="bg-[#fdf8f0] rounded-[32px] shadow-sm w-full max-w-[800px] p-10 sm:p-12 flex flex-col items-center gap-8 relative border border-orange-100/10">
                 {/* Dashboard preview with play button */}
-                <div className="relative w-full max-w-[340px]">
+                <div className="relative w-full max-w-[440px] shadow-lg rounded-xl overflow-hidden hover:scale-[1.01] transition-transform duration-200">
                     <DashboardMockup />
-                    <button className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-14 h-14 rounded-full bg-violet-500 bg-opacity-90 flex items-center justify-center shadow-lg hover:bg-violet-600 transition-colors">
-                            <Play size={22} className="text-white ml-1" fill="white" />
+                    <button className="absolute inset-0 flex items-center justify-center bg-black/5 hover:bg-black/10 transition-colors group cursor-pointer">
+                        <div className="w-16 h-16 rounded-full bg-violet-600 hover:bg-violet-750 flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-all">
+                            <Play size={24} className="text-white ml-1.5" fill="white" />
                         </div>
                     </button>
                 </div>
@@ -84,9 +153,15 @@ function WelcomeCard() {
                     <h1 className="text-2xl font-bold text-gray-900 mb-2">
                         Welcome Aboard, ADITYA KUMAR SAHRAWAT!
                     </h1>
-                    <p className="text-gray-500 text-[15px]">
+                    <p className="text-gray-500 text-[14.5px]">
                         Fireflies is now ready to automate your meetings and streamline your workflows.
                     </p>
+                    {process.env.NEXT_PUBLIC_INSTANCE === "prod" && (
+                        <div className="mt-4 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5 max-w-md mx-auto text-center flex items-center justify-center gap-2 text-[12.5px] text-red-700 font-semibold shadow-sm">
+                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0" />
+                            <span>Before testing, please make sure the backend server is running on: <a href="http://fireflies-backend-7auw.onrender.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-900 transition-colors">http://fireflies-backend-7auw.onrender.com/</a></span>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
@@ -340,25 +415,14 @@ export default function HomeContent() {
     return (
         <div className="flex flex-col flex-1 overflow-y-auto bg-white relative">
             {/* Hero section */}
-            <div
-                className="relative flex items-center justify-center overflow-hidden"
-                style={{ minHeight: "400px" }}
-            >
-                {/* Gradient background */}
+            <div className="relative flex flex-col items-center justify-center overflow-hidden min-h-[580px] py-20 px-6">
+                {/* Sky blue cloud gradient background */}
                 <div className="absolute inset-0">
                     <div
                         className="absolute inset-0"
                         style={{
                             background:
-                                "radial-gradient(ellipse at 20% 50%, rgba(56,189,248,0.45) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(251,191,36,0.3) 0%, transparent 55%), radial-gradient(ellipse at 60% 80%, rgba(129,140,248,0.3) 0%, transparent 55%), radial-gradient(ellipse at 40% 30%, rgba(20,184,166,0.35) 0%, transparent 50%)",
-                            backdropFilter: "blur(0px)",
-                        }}
-                    />
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            background:
-                                "linear-gradient(135deg, rgba(186,230,253,0.5) 0%, rgba(254,243,199,0.4) 40%, rgba(196,181,253,0.3) 100%)",
+                                "linear-gradient(180deg, #38bdf8 0%, #7dd3fc 35%, #bae6fd 60%, #f0f9ff 85%, #ffffff 100%)",
                         }}
                     />
                 </div>
@@ -377,7 +441,7 @@ export default function HomeContent() {
             </div>
 
             {/* Main scrollable content */}
-            <div className="flex-1 py-6">
+            <div className="flex-1 py-10">
                 <ConnectBanner />
                 <RecentMeetings />
                 <QuickStart />
@@ -385,7 +449,7 @@ export default function HomeContent() {
             </div>
 
             {/* Help button */}
-            <button className="fixed bottom-5 right-5 w-11 h-11 rounded-full bg-violet-600 hover:bg-violet-700 flex items-center justify-center shadow-lg transition-colors z-50">
+            <button className="fixed bottom-5 right-5 w-11 h-11 rounded-full bg-violet-600 hover:bg-violet-750 flex items-center justify-center shadow-lg transition-colors z-50">
                 <HelpCircle size={20} className="text-white" />
             </button>
         </div>

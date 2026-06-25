@@ -29,6 +29,8 @@ interface NewActionItem {
     assignee: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export default function UploadPage() {
     const router = useRouter();
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -172,7 +174,7 @@ export default function UploadPage() {
             const uniqueSpeakerNames = Array.from(new Set(segments.map(s => s.speaker.trim()))).filter(Boolean);
 
             // Fetch existing participants list
-            const participantsRes = await fetch("http://localhost:8000/participants");
+            const participantsRes = await fetch(`${API_URL}/participants`);
             let existingParticipants: Participant[] = [];
             if (participantsRes.ok) {
                 existingParticipants = await participantsRes.json();
@@ -190,7 +192,7 @@ export default function UploadPage() {
                     participantIds.push(existing.id);
                 } else {
                     setUploadStep(`Registering new attendee: ${speakerName}...`);
-                    const createRes = await fetch("http://localhost:8000/participants", {
+                    const createRes = await fetch(`${API_URL}/participants`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ name: speakerName })
@@ -215,7 +217,7 @@ export default function UploadPage() {
                 participant_ids: participantIds
             };
 
-            const meetingRes = await fetch("http://localhost:8000/meetings", {
+            const meetingRes = await fetch(`${API_URL}/meetings`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(meetingPayload)
@@ -236,7 +238,7 @@ export default function UploadPage() {
 
             // Step 2: Upload transcript segments
             setUploadStep("Processing and uploading transcript segments...");
-            const transcriptRes = await fetch(`http://localhost:8000/meetings/${meetingId}/transcript`, {
+            const transcriptRes = await fetch(`${API_URL}/meetings/${meetingId}/transcript`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(segments)
@@ -250,7 +252,7 @@ export default function UploadPage() {
             if (actionItems.length > 0) {
                 setUploadStep(`Creating ${actionItems.length} action items...`);
                 for (const item of actionItems) {
-                    await fetch(`http://localhost:8000/meetings/${meetingId}/action-items`, {
+                    await fetch(`${API_URL}/meetings/${meetingId}/action-items`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({

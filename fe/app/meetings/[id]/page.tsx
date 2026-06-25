@@ -68,6 +68,8 @@ interface MeetingDetail {
     action_items: ActionItem[];
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export default function MeetingDetailPage() {
     const { id } = useParams();
     const router = useRouter();
@@ -232,7 +234,7 @@ export default function MeetingDetailPage() {
     // Fetch all participants for the edit modal
     const fetchAvailableParticipants = async () => {
         try {
-            const res = await fetch("http://localhost:8000/participants");
+            const res = await fetch(`${API_URL}/participants`);
             if (res.ok) {
                 const data = await res.json();
                 setAvailableParticipants(data);
@@ -259,7 +261,7 @@ export default function MeetingDetailPage() {
         }
         setIsSavingEdit(true);
         try {
-            const res = await fetch(`http://localhost:8000/meetings/${id}`, {
+            const res = await fetch(`${API_URL}/meetings/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -286,7 +288,7 @@ export default function MeetingDetailPage() {
     const handleDeleteMeeting = async () => {
         if (confirm(`Are you sure you want to delete this meeting: "${meeting?.title}"?`)) {
             try {
-                const res = await fetch(`http://localhost:8000/meetings/${id}`, {
+                const res = await fetch(`${API_URL}/meetings/${id}`, {
                     method: "DELETE"
                 });
                 if (res.ok) {
@@ -305,7 +307,7 @@ export default function MeetingDetailPage() {
     // Toggle action item completion status
     const handleToggleActionItem = async (actionId: number, completed: boolean) => {
         try {
-            const res = await fetch(`http://localhost:8000/action-items/${actionId}`, {
+            const res = await fetch(`${API_URL}/action-items/${actionId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ completed })
@@ -329,7 +331,7 @@ export default function MeetingDetailPage() {
             return;
         }
         try {
-            const res = await fetch(`http://localhost:8000/meetings/${id}/action-items`, {
+            const res = await fetch(`${API_URL}/meetings/${id}/action-items`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -360,7 +362,7 @@ export default function MeetingDetailPage() {
             return;
         }
         try {
-            const res = await fetch(`http://localhost:8000/action-items/${actionId}`, {
+            const res = await fetch(`${API_URL}/action-items/${actionId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -385,7 +387,7 @@ export default function MeetingDetailPage() {
     const handleDeleteActionItem = async (actionId: number) => {
         if (confirm("Are you sure you want to delete this action item?")) {
             try {
-                const res = await fetch(`http://localhost:8000/action-items/${actionId}`, {
+                const res = await fetch(`${API_URL}/action-items/${actionId}`, {
                     method: "DELETE"
                 });
                 if (res.ok) {
@@ -454,7 +456,7 @@ export default function MeetingDetailPage() {
     // Fetch full meeting details
     const fetchMeetingDetails = async () => {
         try {
-            const res = await fetch(`http://localhost:8000/meetings/${id}`);
+            const res = await fetch(`${API_URL}/meetings/${id}`);
             if (!res.ok) throw new Error("Failed to load meeting details");
             const data = await res.json();
             setMeeting(data);
@@ -654,7 +656,7 @@ export default function MeetingDetailPage() {
         setFredLoading(true);
 
         try {
-            const res = await fetch(`http://localhost:8000/meetings/${id}/transcript?search=${encodeURIComponent(query)}`);
+            const res = await fetch(`${API_URL}/meetings/${id}/transcript?search=${encodeURIComponent(query)}`);
             if (!res.ok) throw new Error("Fred query failed");
 
             const matches: TranscriptSegment[] = await res.json();

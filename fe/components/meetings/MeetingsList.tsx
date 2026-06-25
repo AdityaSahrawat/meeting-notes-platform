@@ -18,6 +18,8 @@ interface GroupedMeetings {
     meetings: Meeting[];
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export default function MeetingsList() {
     const [activeTab, setActiveTab] = useState<"hosted" | "shared">("hosted");
     const [checkedAll, setCheckedAll] = useState<Record<string, boolean>>({});
@@ -48,7 +50,7 @@ export default function MeetingsList() {
                 if (participantFilter) params.append("participant", participantFilter);
                 if (timeRangeFilter) params.append("time_range", timeRangeFilter);
 
-                const response = await fetch(`http://localhost:8000/meetings?${params.toString()}`);
+                const response = await fetch(`${API_URL}/meetings?${params.toString()}`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch meetings");
                 }
@@ -393,7 +395,7 @@ export default function MeetingsList() {
                                                     e.stopPropagation();
                                                     if (confirm(`Are you sure you want to delete "${meeting.title}"?`)) {
                                                         try {
-                                                            const res = await fetch(`http://localhost:8000/meetings/${meeting.id}`, {
+                                                            const res = await fetch(`${API_URL}/meetings/${meeting.id}`, {
                                                                 method: "DELETE"
                                                             });
                                                             if (res.ok) {
